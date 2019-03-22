@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'slidelist.dart';
+import 'onboarding.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -88,8 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
     print(profile_local.toString());
     if (profile_local!=null){
       setState(() {
-        profile=profile_local;
-        this.isLoggedIn = true;
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>Onboarding()));
 
       });
     }
@@ -98,7 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void onLoginStatusChanged(bool isLoggedIn, {var profileData}) {
     //   print(profileData.toString());
     setState(() {
-      this.isLoggedIn = isLoggedIn;
+      Navigator.push(context, MaterialPageRoute(builder: (context) =>Onboarding()));
     });
   }
 
@@ -120,6 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<void> _handleSignIn() async {
     try {
       await _googleSignIn.signIn();
+      
     } catch (error) {
       print(error);
     }
@@ -187,13 +190,14 @@ class _MyHomePageState extends State<MyHomePage> {
       );
     }
     else if(_currentUser==null && isLoggedIn==true){
-      return Column(
+          return Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
 
           Text(profile.toString()),
         ],
       );
+
     }
   }
 }
